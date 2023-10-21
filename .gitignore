@@ -1,2 +1,5 @@
 # pixelorama projects
 *.pxo
+
+# vscode settings
+.vscode
