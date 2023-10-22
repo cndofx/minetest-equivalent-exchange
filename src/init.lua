@@ -1,3 +1,5 @@
+DoFile("/src/util.lua")
+
 DoFile("/src/commands.lua")
 DoFile("/src/emc.lua")
 DoFile("/src/fuel.lua")

@@ -93,12 +93,19 @@ function eqex.emc._get_emc_for(itemstring, path)
             end
 
             -- todo: subtract repacements value from the total emc
-            -- todo: divide emc by the output count of this recipe
 
-            print("all_ingredients_have_emc: " .. dump(all_ingredients_have_emc))
-            print("total_emc: " .. total_emc)
+            -- divide emc by the output count of this recipe
+            -- count will be the number after a space
+            local split_output = util.mystrsplit(recipe.output, "%s")
+            if split_output[2] ~= nil then
+                local count = tonumber(split_output[2])
+                total_emc = total_emc / count
+            end
+
+            -- print("all_ingredients_have_emc: " .. dump(all_ingredients_have_emc))
+            -- print("total_emc: " .. total_emc)
             if all_ingredients_have_emc and total_emc > 0 and (total_emc < lowest_total_emc or lowest_total_emc == -1) then
-                print("condition passed")
+                -- print("condition passed")
                 lowest_total_emc = total_emc
             end
         end
@@ -116,7 +123,7 @@ end
 
 function eqex.emc._get_emc_for_group(group, path)
     group = group:gsub("group:", "")
-    print("getting emc for group " .. group)
+    -- print("getting emc for group " .. group)
     -- get all items in this group
     local items = {}
     for itemstring, def in pairs(minetest.registered_items) do
@@ -125,10 +132,10 @@ function eqex.emc._get_emc_for_group(group, path)
         end
     end
 
-    print("group contains items:")
-    for _, item in ipairs(items) do
-        print(item)
-    end
+    -- print("group contains items:")
+    -- for _, item in ipairs(items) do
+    --     print(item)
+    -- end
 
     -- get the lowest emc value that is not -1
     local lowest_emc = -1
