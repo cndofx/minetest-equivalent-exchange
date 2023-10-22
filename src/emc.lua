@@ -27,7 +27,7 @@ function eqex.emc.get_emc_for(itemstring)
 end
 
 function eqex.emc._get_emc_for(itemstring, path)
-    print("getting emc for '" .. itemstring .. "'")
+    -- print("getting emc for '" .. itemstring .. "'")
 
     -- check if this is a group
     local group_prefix = "group:"
@@ -78,9 +78,9 @@ function eqex.emc._get_emc_for(itemstring, path)
     -- no emc found, calculate from crafting components
 
     -- print("current path:")
-    for _, pathitem in ipairs(path) do
-        print(pathitem)
-    end
+    -- for _, pathitem in ipairs(path) do
+    --     print(pathitem)
+    -- end
     -- print("end current path")
 
     -- make sure the current item wasnt visited earlier in the path
@@ -115,14 +115,28 @@ function eqex.emc._get_emc_for(itemstring, path)
                 -- if emc is zero then it just wont be considered
             end
 
+            print("recipe:")
+            print(dump(recipe))
+
             -- subtract repacements value from the total emc
-            if recipe.replacements ~= nil then
-                for _, replacement in ipairs(recipe.replacements) do
-                    local item = replacement[2]
-                    local emc = eqex.emc.get_emc_for(item)
-                    total_emc = total_emc - emc
-                end
-            end
+            local craft_result = minetest.get_craft_result({
+                method = "normal",
+                width = recipe.width,
+                items = recipe.items
+            })
+            print("craft result:")
+            print(dump(craft_result))
+
+            -- print(dump(recipe.replacements))
+            -- if recipe.replacements ~= nil then
+            --     print(itemstring .. " has replacements!")
+            --     for _, replacement in ipairs(recipe.replacements) do
+            --         print("replacement: " .. replacement)
+            --         local item = replacement[2]
+            --         local emc = eqex.emc.get_emc_for(item)
+            --         total_emc = total_emc - emc
+            --     end
+            -- end
 
             -- divide emc by the output count of this recipe
             -- count will be the number after a space
