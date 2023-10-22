@@ -74,6 +74,8 @@ function eqex.emc._get_emc_for(itemstring, path)
     print("adding to path: " .. itemstring)
     path[#path + 1] = itemstring
 
+    -- for every recipe that creates this item,
+    -- sum up the value of the ingredients and choose the lowest one (that isnt -1)
     local lowest_total_emc = -1
     local recipes = minetest.get_all_craft_recipes(itemstring)
     if recipes ~= nil then
@@ -92,7 +94,14 @@ function eqex.emc._get_emc_for(itemstring, path)
                 -- if emc is zero then it just wont be considered
             end
 
-            -- todo: subtract repacements value from the total emc
+            -- subtract repacements value from the total emc
+            if recipe.replacements ~= nil then
+                for _, replacement in ipairs(recipe.replacements) do
+                    local item = replacement[2]
+                    local emc = eqex.emc.get_emc_for(item)
+                    total_emc = total_emc - emc
+                end
+            end
 
             -- divide emc by the output count of this recipe
             -- count will be the number after a space
