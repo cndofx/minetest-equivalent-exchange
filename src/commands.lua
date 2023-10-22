@@ -1,3 +1,50 @@
+minetest.register_chatcommand("eqex_set_emc", {
+    description = "Set the EMC value of the currently held item",
+    params = "<emc>",
+    func = function(name, params)
+        local emc = tonumber(params)
+        if emc ~= nil then
+            local player = minetest.get_player_by_name(name)
+            local itemstring = player:get_wielded_item():get_name()
+            local notification = "EMC of '" .. itemstring .. "' set to " .. emc .. "! Reload the world to see changes."
+            if itemstring ~= "" then
+                local storage_key = eqex.storage_custom_emc_prefix .. itemstring
+                eqex.storage:set_int(storage_key, emc)
+                minetest.chat_send_player(name, notification)
+            else
+                minetest.chat_send_player(name, "You cannot set the EMC of nothing!")
+            end
+        else
+            minetest.chat_send_player(name, "'" .. params .. "' is not a valid number.")
+        end
+    end
+})
+
+minetest.register_chatcommand("eqex_reset_emc", {
+    description = "Reset the value of the currently held item to its default",
+    func = function(name)
+        local player = minetest.get_player_by_name(name)
+        local itemstring = player:get_wielded_item():get_name()
+        local storage_key = eqex.storage_custom_emc_prefix .. itemstring
+        local notification = "Custom EMC removed from '" .. itemstring .. "'."
+        eqex.storage:set_string(storage_key, "")
+        minetest.chat_send_player(name, notification)
+    end
+})
+
+minetest.register_chatcommand("eqex_reset_all", {
+    description = "Reset ALL values in storage!",
+    func = function(name)
+        for _, key in ipairs(eqex.storage:get_keys()) do
+            local notification = "Removing key '" .. key .. "' from storage."
+            minetest.chat_send_player(name, notification)
+            eqex.storage:set_string(key, "")
+        end
+    end
+})
+
+-- debug commands
+
 minetest.register_chatcommand("debug_dump_items", {
     description = "Dump all itemstrings to stdout",
     func = function(name)
