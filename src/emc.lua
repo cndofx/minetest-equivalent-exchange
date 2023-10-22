@@ -32,25 +32,25 @@ function eqex.emc._get_emc_for(itemstring, path)
     -- check if this is a group
     local group_prefix = "group:"
     if itemstring:sub(1, #group_prefix) == group_prefix then
-        print("'" .. itemstring .. "' is a group")
+        -- print("'" .. itemstring .. "' is a group")
         local emc = eqex.emc._get_emc_for_group(itemstring, path)
-        print("got " .. emc .. " emc for group " .. itemstring)
-        print("get_emc_for returning: " .. emc)
+        -- print("got " .. emc .. " emc for group " .. itemstring)
+        -- print("get_emc_for returning: " .. emc)
         return emc
     end
 
     -- make sure this item exists
     if minetest.registered_items[itemstring] == nil then
-        print("item '" .. itemstring .. "' does not exist")
-        print("get_emc_for returning: -1")
+        -- print("item '" .. itemstring .. "' does not exist")
+        -- print("get_emc_for returning: -1")
         return -1
     end
 
     -- check if this item has a cached emc value
     if eqex.emc.cache[itemstring] ~= nil then
-        print("emc value found in cache")
+        -- print("emc value found in cache")
         local emc = eqex.emc.cache[itemstring]
-        print("get_emc_for returning: " .. emc)
+        -- print("get_emc_for returning: " .. emc)
         return emc
     end
 
@@ -58,9 +58,9 @@ function eqex.emc._get_emc_for(itemstring, path)
     -- not yet implemented
     for _, key in ipairs(eqex.storage:get_keys()) do
         if key == eqex.storage_custom_emc_prefix .. itemstring then
-            print("custom emc found in storage")
+            -- print("custom emc found in storage")
             local emc = eqex.storage:get_int(key)
-            print("get_emc_for returning: " .. emc)
+            -- print("get_emc_for returning: " .. emc)
             eqex.emc.cache[itemstring] = emc
             return emc
         end
@@ -68,31 +68,31 @@ function eqex.emc._get_emc_for(itemstring, path)
 
     -- check if this item has a default emc value
     if eqex.emc.defaults[itemstring] ~= nil then
-        print("emc value found in defaults")
+        -- print("emc value found in defaults")
         local emc = eqex.emc.defaults[itemstring]
-        print("get_emc_for returning: " .. emc)
+        -- print("get_emc_for returning: " .. emc)
         eqex.emc.cache[itemstring] = emc
         return emc
     end
 
     -- no emc found, calculate from crafting components
 
-    print("current path:")
+    -- print("current path:")
     for _, pathitem in ipairs(path) do
         print(pathitem)
     end
-    print("end current path")
+    -- print("end current path")
 
     -- make sure the current item wasnt visited earlier in the path
     for _, pathitem in ipairs(path) do
         if pathitem == itemstring then
-            print("loop detected, returning -1")
+            -- print("loop detected, returning -1")
             return -1
         end
     end
 
     -- add the current item to the path
-    print("adding to path: " .. itemstring)
+    -- print("adding to path: " .. itemstring)
     path[#path + 1] = itemstring
 
     -- for every recipe that creates this item,
@@ -101,11 +101,11 @@ function eqex.emc._get_emc_for(itemstring, path)
     local recipes = minetest.get_all_craft_recipes(itemstring)
     if recipes ~= nil then
         for _, recipe in ipairs(recipes) do
-            print("recipe:\n" .. dump(recipe))
+            -- print("recipe:\n" .. dump(recipe))
             local total_emc = 0
             local all_ingredients_have_emc = true
             for _, ingredient in pairs(recipe.items) do
-                print("ingredient: " .. ingredient)
+                -- print("ingredient: " .. ingredient)
                 local emc = eqex.emc._get_emc_for(ingredient, path)
                 if emc > 0 then
                     total_emc = total_emc + emc
@@ -144,11 +144,11 @@ function eqex.emc._get_emc_for(itemstring, path)
     end
 
     -- remove the current item from the path
-    print("removing from path: " .. path[#path])
+    -- print("removing from path: " .. path[#path])
     path[#path] = nil
 
 
-    print("get_emc_for returning: " .. lowest_total_emc)
+    -- print("get_emc_for returning: " .. lowest_total_emc)
     eqex.emc.cache[itemstring] = lowest_total_emc
     return lowest_total_emc
 end
