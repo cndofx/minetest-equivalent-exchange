@@ -21,6 +21,13 @@ minetest.register_chatcommand("debug_dump_recipes", {
     end
 })
 
+minetest.register_chatcommand("debug_dump_emc_cache", {
+    description = "Dump all cached EMC values to stdout",
+    func = function(name)
+        print(dump(eqex.emc.cache))
+    end
+})
+
 minetest.register_chatcommand("debug_calculate_emc", {
     description = "Calculate the EMC value of the given item",
     params = "<item>",
