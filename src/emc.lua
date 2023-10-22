@@ -5,6 +5,18 @@ eqex.emc.defaults = {
     ["default:cobble"] = 1,
     ["default:gravel"] = 4,
 
+    ["default:tree"] = 32,
+    ["default:acacia_tree"] = 32,
+    ["default:aspen_tree"] = 32,
+    ["default:jungletree"] = 32,
+    ["default:pine_tree"] = 32,
+
+    ["default:coal_lump"] = 128,
+    ["default:copper_ingot"] = 128,
+    ["default:tin_ingot"] = 128,
+    ["default:steel_ingot"] = 256,
+    ["default:mese_crystal"] = 512,
+    ["default:gold_ingot"] = 2048,
     ["default:diamond"] = 8192,
 }
 eqex.emc.cache = {}
