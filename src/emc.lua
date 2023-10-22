@@ -117,7 +117,9 @@ function eqex.emc._get_emc_for(itemstring, path)
             local split_output = util.mystrsplit(recipe.output, "%s")
             if split_output[2] ~= nil then
                 local count = tonumber(split_output[2])
-                total_emc = total_emc / count
+                -- no floor division operator in this version it seems :(
+                -- total_emc = total_emc // count
+                total_emc = math.floor(total_emc / count)
             end
 
             -- print("all_ingredients_have_emc: " .. dump(all_ingredients_have_emc))
