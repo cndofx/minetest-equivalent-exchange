@@ -200,6 +200,7 @@ local function init_emc()
     for itemstring, def in pairs(minetest.registered_items) do
         local emc = eqex.emc.get_emc_for(itemstring)
         if emc ~= -1 then
+            local emc = util.format_int(emc)
             local desc = "\nEMC: " .. emc
             desc = minetest.colorize("#FFFF00", desc)
             desc = def.description .. desc
