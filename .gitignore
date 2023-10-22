@@ -3,6 +3,3 @@
 
 # vscode settings
 .vscode
-
-# rust emc demo build artifacts
-emc_demo/target/
