@@ -115,17 +115,22 @@ function eqex.emc._get_emc_for(itemstring, path)
                 -- if emc is zero then it just wont be considered
             end
 
-            print("recipe:")
-            print(dump(recipe))
+
+            -- ======================
+
+            -- print("recipe:")
+            -- print(dump(recipe))
 
             -- subtract repacements value from the total emc
-            local craft_result = minetest.get_craft_result({
-                method = "normal",
-                width = recipe.width,
-                items = recipe.items
-            })
-            print("craft result:")
-            print(dump(craft_result))
+            -- local craft_result = minetest.get_craft_result({
+            --     method = "normal",
+            --     width = recipe.width,
+            --     items = recipe.items
+            -- })
+            -- print("craft result:")
+            -- print(dump(craft_result))
+
+            -- ======================
 
             -- print(dump(recipe.replacements))
             -- if recipe.replacements ~= nil then
