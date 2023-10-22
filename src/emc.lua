@@ -44,6 +44,15 @@ function eqex.emc._get_emc_for(itemstring, path)
 
     -- check if this item has a custom emc value
     -- not yet implemented
+    for _, key in ipairs(eqex.storage:get_keys()) do
+        if key == eqex.storage_custom_emc_prefix .. itemstring then
+            print("custom emc found in storage")
+            local emc = eqex.storage:get_int(key)
+            print("get_emc_for returning: " .. emc)
+            eqex.emc.cache[itemstring] = emc
+            return emc
+        end
+    end
 
     -- check if this item has a default emc value
     if eqex.emc.defaults[itemstring] ~= nil then
