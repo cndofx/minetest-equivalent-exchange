@@ -168,7 +168,19 @@ function eqex.emc._get_emc_for_group(group, path)
 end
 
 local function init_emc()
-    print("unimplemented")
+    -- set emc values and tooltips on all items
+    for itemstring, def in pairs(minetest.registered_items) do
+        local emc = eqex.emc.get_emc_for(itemstring)
+        if emc ~= -1 then
+            local desc = "\nEMC: " .. emc
+            desc = minetest.colorize("#FFFF00", desc)
+            desc = def.description .. desc
+            minetest.override_item(itemstring, {
+                _eqex_emc = emc,
+                description = desc,
+            })
+        end
+    end
 end
 
 minetest.register_on_mods_loaded(init_emc)
